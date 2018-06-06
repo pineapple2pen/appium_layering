@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 # @Author : Pineapple Dong ^_^
 # @Time   : 2018/5/28 10:14
-# @File   : package_tool.py
+# @File   : apk_tool.py
 
 import re
-
-from math import floor
 import subprocess
 import os
 import json
