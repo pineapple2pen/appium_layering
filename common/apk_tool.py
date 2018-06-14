@@ -85,7 +85,6 @@ class ApkInfo:
                              stdin=subprocess.PIPE, shell=True)
         (output, err) = p.communicate()
         # print(err.decode('gbk'))
-        # print("=====getApkActivity=========")
         match = re.compile("launchable-activity: name='(\S+)'").search(output.decode())
         # print("match=%s" % match)
         if match is not None:
