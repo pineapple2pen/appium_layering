@@ -17,8 +17,9 @@ class AppiumServer:
 
     def __init__(self, kwargs=None):
         """
+        根据传递的信息，启动主机上的appium服务，支持多个启动
         该服务源代码来自git开源appium移动测试框架，稍加修改
-        :param kwargs:执行list
+        :param kwargs:执行信息list
         """
         self.kwargs = kwargs
 
