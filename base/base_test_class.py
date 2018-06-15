@@ -12,22 +12,26 @@ def get_appium_driver(app_devices):
 
     if app_devices["platform"].lower() == "android":
         desired_caps["platformName"] = "Android"
-        desired_caps["platformVersion"] = app_devices["platformVersion"]
+        # desired_caps["platformVersion"] = app_devices["platformVersion"]
         desired_caps["deviceName"] = app_devices["deviceName"]
         desired_caps["appPackage"] = app_devices["appPackage"]
         desired_caps["appActivity"] = app_devices["appActivity"]
+        desired_caps["noReset"] = "True"
+        desired_caps['noSign'] = "True"
+        desired_caps["unicodeKeyboard"] = "True"
+        desired_caps["resetKeyboard"] = "True"
 
-    return webdriver.Remote("http://localhost:" + str(app_devices["appiumPort"]) + "/wd/hub'")
+    return webdriver.Remote("http://localhost:" + str(app_devices["appiumPort"]) + "/wd/hub", desired_caps)
 
 
 class BaseTestClass(unittest.TestCase):
     def __init__(self, app):
-        super(BaseTestClass, self).__init__()
-        self.devices = app
+        super().__init__()
+        self.driver = get_appium_driver(app)
 
     @classmethod
     def setUpClass(cls):
-        cls.driver = get_appium_driver(cls.devices)
+        pass
 
     @classmethod
     def tearDownClass(cls):
