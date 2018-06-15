@@ -17,7 +17,8 @@ class TimeTools:
     format_d_t = "%Y-%m-%d %H:%M:%S"
     format_d = "%Y-%m-%d"
 
-    def get_format_time(self, date, format_s: str = None) -> str:
+    @classmethod
+    def get_format_time(cls, date, format_s: str = None) -> str:
         """
         获取格式化后的时间（exp：2018-06-13 21:55:55）
         :param date: 需格式化的时间
@@ -26,7 +27,7 @@ class TimeTools:
         """
         try:
 
-            format_s = self.format_d_t if format_s is None else format_s
+            format_s = cls.format_d_t if format_s is None else format_s
             date_t = None
 
             if isinstance(date, dt.datetime) or isinstance(date, dt.date):
@@ -43,7 +44,8 @@ class TimeTools:
         except Exception as e:
             print(e)
 
-    def get_until_time(self, date, format_s: str = None) -> dt.datetime:
+    @classmethod
+    def get_until_time(cls, date, format_s: str = None) -> dt.datetime:
         """
         获取指定时间的datetime对象
         :param date: 时间，可为时间戳或者字符串时间
@@ -52,7 +54,7 @@ class TimeTools:
         """
         try:
 
-            format_s = self.format_d_t if format_s is None else format_s
+            format_s = cls.format_d_t if format_s is None else format_s
             date_t = None
 
             if isinstance(date, str):
@@ -75,7 +77,8 @@ class TimeTools:
         except Exception as e:
             print(e)
 
-    def get_seconds(self, date, format_s: str = None) -> float:
+    @classmethod
+    def get_seconds(cls, date, format_s: str = None) -> float:
         """
         获取指定时间的时间戳
         :param date:时间，可为时间戳或者字符串时间
@@ -83,7 +86,7 @@ class TimeTools:
         :return:
         """
         try:
-            format_s = self.format_d_t if format_s is None else format_s
+            format_s = cls.format_d_t if format_s is None else format_s
             date_t = None
 
             if isinstance(date, str):
@@ -98,23 +101,25 @@ class TimeTools:
         except Exception as e:
             print(e)
 
-    def begin_of_day_mills(self, day=None):
+    @classmethod
+    def begin_of_day_mills(cls, day=None):
         """
         获取一天开始时的毫秒时间戳，默认为当天
         :param day: 指定时间
         :return:
         """
         try:
-            day_u = dt.date.today() if day in (None, "") else self.get_until_time(day)
+            day_u = dt.date.today() if day in (None, "") else cls.get_until_time(day)
 
-            return self.get_seconds(dt.date(day_u.year, day_u.month, day_u.day)) * 1000
+            return cls.get_seconds(dt.date(day_u.year, day_u.month, day_u.day)) * 1000
 
         except AttributeError:
             pass
         except Exception as e:
             print(e)
 
-    def end_of_day_mills(self, day=None):
+    @classmethod
+    def end_of_day_mills(cls, day=None):
         """
         获取一天的结束时间的毫秒时间戳， 默认为当天
         :param day: 指定时间
@@ -122,7 +127,7 @@ class TimeTools:
         """
         try:
 
-            return self.begin_of_day_mills(day) + 24 * 60 * 60 * 1000 - 1
+            return cls.begin_of_day_mills(day) + 24 * 60 * 60 * 1000 - 1
 
         except TypeError:
             pass
@@ -160,7 +165,8 @@ class TimeTools:
         except ValueError:
             pass
 
-    def end_of_month_day(self, month, year=dt.date.today().year):
+    @classmethod
+    def end_of_month_day(cls, month, year=dt.date.today().year):
         """
         获取某月的最后一天
         :param month:
@@ -169,12 +175,13 @@ class TimeTools:
         """
         try:
 
-            return dt.date(year, month, self.get_month_end_day(year, month))
+            return dt.date(year, month, cls.get_month_end_day(year, month))
 
         except ValueError:
             pass
 
-    def get_interval_day_by_day(self, interval: int, date=None):
+    @classmethod
+    def get_interval_day_by_day(cls, interval: int, date=None):
         """
         获取某日（默认今天）相隔几天的日期
         :param interval:正数为日期往前添加天数，负数为日期减去天数
@@ -184,7 +191,7 @@ class TimeTools:
         try:
 
             date = dt.date.today() if date is None else date
-            date = date if isinstance(date, dt.date) else self.get_until_time(date, self.format_d)
+            date = date if isinstance(date, dt.date) else cls.get_until_time(date, cls.format_d)
             time_del = dt.timedelta(days=interval)
 
             return date + time_del
@@ -192,7 +199,8 @@ class TimeTools:
         except Exception as e:
             print(e)
 
-    def different_days(self, date1: str, date2: str):
+    @classmethod
+    def different_days(cls, date1: str, date2: str):
         """
         获取两个日期之间相差几天
         :param date1: 指定日期1，格式为（2018-05-22）
@@ -201,8 +209,8 @@ class TimeTools:
         """
         try:
 
-            date1_u = self.get_until_time(date1, self.format_d)
-            date2_u = self.get_until_time(date2, self.format_d)
+            date1_u = cls.get_until_time(date1, cls.format_d)
+            date2_u = cls.get_until_time(date2, cls.format_d)
 
             return (date1_u - date2_u).days
 
