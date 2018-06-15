@@ -17,6 +17,7 @@ class ApkInfo:
         """
         self.apkPath = apk_path
         self.aapt_path = self.get_aapt()
+        self.run_info = None
 
     @staticmethod
     def get_aapt():
@@ -42,11 +43,13 @@ class ApkInfo:
         获取apk包的基本信息
         :return: 
         """
-        p = subprocess.Popen(self.aapt_path + " dump badging %s" % self.apkPath, stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE,
-                             stdin=subprocess.PIPE, shell=True)
-        (output, err) = p.communicate()
-        match = re.compile("package: name='(\S+)' versionCode='(\d+)' versionName='(\S+)'").match(output.decode())
+        if self.run_info is None:
+            p = subprocess.Popen(self.aapt_path + " dump badging %s" % self.apkPath, stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE,
+                                 stdin=subprocess.PIPE, shell=True)
+            (self.run_info, err) = p.communicate()
+        match = re.compile("package: name='(\S+)' versionCode='(\d+)' versionName='(\S+)'").match(
+            self.run_info.decode())
         if not match:
             raise Exception("can't get packageinfo")
         package_name = match.group(1)
@@ -63,11 +66,12 @@ class ApkInfo:
         获取apk名字
         :return:
         """
-        p = subprocess.Popen(self.aapt_path + " dump badging %s" % self.apkPath, stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE,
-                             stdin=subprocess.PIPE, shell=True)
-        (output, err) = p.communicate()
-        t = output.decode().split("\n")
+        if self.run_info is None:
+            p = subprocess.Popen(self.aapt_path + " dump badging %s" % self.apkPath, stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE,
+                                 stdin=subprocess.PIPE, shell=True)
+            (self.run_info, err) = p.communicate()
+        t = self.run_info.decode().split("\n")
         for item in t:
             # print(item)
             # 此处的apk包名我是取得中文名称。具体信息可以在dos下用aapt查看详细信息后，修改正则获取自己想要的name
@@ -80,19 +84,20 @@ class ApkInfo:
         得到启动类
         :return:
         """
-        p = subprocess.Popen(self.aapt_path + " dump badging %s" % self.apkPath, stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE,
-                             stdin=subprocess.PIPE, shell=True)
-        (output, err) = p.communicate()
+        if self.run_info is None:
+            p = subprocess.Popen(self.aapt_path + " dump badging %s" % self.apkPath, stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE,
+                                 stdin=subprocess.PIPE, shell=True)
+            (self.run_info, err) = p.communicate()
         # print(err.decode('gbk'))
-        match = re.compile("launchable-activity: name='(\S+)'").search(output.decode())
+        match = re.compile("launchable-activity: name='(\S+)'").search(self.run_info.decode())
         # print("match=%s" % match)
         if match is not None:
             return match.group(1)
 
 
 if __name__ == '__main__':
-    apk_info = ApkInfo(r"..\suishouji_1059000.apk")
+    apk_info = ApkInfo(r"..\file_dir\suishouji_1059000.apk")
     # apk_info = ApkInfo(r"D:\ChromeDownloads\suishouji_1059000.apk")
     print(apk_info.get_apk_activity())
     print(apk_info.get_apk_base_info())
