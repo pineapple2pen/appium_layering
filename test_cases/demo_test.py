@@ -13,7 +13,7 @@ class DemoTest:
     def __init__(self):
         # appium_server = AppiumServer()
 
-        apk_info = ApkInfo(r"..\file_dir\suishouji_1059000.apk")
+        apk_info = ApkInfo(r"..\file_dir\suishouji_1060500.apk")
         app = {
             "platform": "Android",
             "deviceName": "Android",

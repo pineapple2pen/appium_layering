@@ -15,7 +15,7 @@ class ApkInfo:
         通过apk包获取apk信息
         :param apk_path:apk路径 
         """
-        self.apkPath = apk_path
+        self.apkPath = os.path.abspath(apk_path)
         self.aapt_path = self.get_aapt()
         self.run_info = None
 
@@ -34,7 +34,6 @@ class ApkInfo:
         得到apk的文件大小
         :return: 
         """
-        print(os.path.getsize(self.apkPath))
         size = round(os.path.getsize(self.apkPath) / (1024 * 1000), 2)
         return str(size) + "M"
 
@@ -97,7 +96,7 @@ class ApkInfo:
 
 
 if __name__ == '__main__':
-    apk_info = ApkInfo(r"..\file_dir\suishouji_1059000.apk")
+    apk_info = ApkInfo(r"..\file_dir\suishouji_1060500.apk")
     # apk_info = ApkInfo(r"D:\ChromeDownloads\suishouji_1059000.apk")
     print(apk_info.get_apk_activity())
     print(apk_info.get_apk_base_info())

@@ -5,4 +5,4 @@
 
 
 class ChargeUpMainPage:
-    pass
+    JYB = "com.mymoney:id/add_expense_quickly_btn"
