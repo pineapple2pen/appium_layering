@@ -89,8 +89,7 @@ class DriverServer:
     def element_status(self, ele):
         try:
             self.get_element(ele)
-        except Exception as e:
-            print(e)
+        except NoSuchElementException:
             return False
         else:
             return True
