@@ -18,7 +18,5 @@ class Config(object):
         self.config_reader.read(config_address)
 
 
-
-
 if __name__ == "__main__":
     pass

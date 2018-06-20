@@ -3,13 +3,18 @@
 # @Time   : 2018/5/28 10:09
 # @File   : start_page.py
 from appium.webdriver import Remote
+from page.base_page import BasePage
 
 
-class StartPage:
+class StartPage(BasePage):
     SKIP_BUTTON = "com.mymoney:id/splash_skip_tv"
 
-    def __init__(self, driver: Remote):
-        self.driver = driver
+    def __init__(self, remote_car: Remote):
+        super().__init__(remote_car)
 
     def click_skip(self):
-        self.driver.find_element_by_id(self.SKIP_BUTTON).click()
+        if self.driver.element_status(self.SKIP_BUTTON):
+            self.driver.click_ele(self.SKIP_BUTTON)
+
+    def get_advertising(self):
+        pass

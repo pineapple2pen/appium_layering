@@ -7,12 +7,6 @@ import datetime as dt
 
 
 class TimeTools:
-    """
-    时间都去哪儿了。。。。。。
-    关于时间，我想整点事情。。。。。。
-    一个关于时间的类。。。。。
-    趁开发小哥改bug，偷摸写的。。。。。
-    """
 
     format_d_t = "%Y-%m-%d %H:%M:%S"
     format_d = "%Y-%m-%d"

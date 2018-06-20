@@ -41,7 +41,7 @@ class AppiumServer:
                 print("start check win appium server status")
                 while True:
                     if self.win_is_runnnig("http://127.0.0.1:" + self.kwargs[i]["port"] + "/wd/hub" + "/status"):
-                        print("win appium server start success")
+                        print("start win appium server start success")
                         break
             else:
                 appium = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1,
