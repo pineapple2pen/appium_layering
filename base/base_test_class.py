@@ -16,10 +16,10 @@ def get_appium_driver(app_devices):
         desired_caps["deviceName"] = app_devices["deviceName"]
         desired_caps["appPackage"] = app_devices["appPackage"]
         desired_caps["appActivity"] = app_devices["appActivity"]
-        desired_caps["noReset"] = "True"
-        desired_caps['noSign'] = "True"
-        desired_caps["unicodeKeyboard"] = "True"
-        desired_caps["resetKeyboard"] = "True"
+        desired_caps["noReset"] = True
+        desired_caps['noSign'] = True
+        desired_caps["unicodeKeyboard"] = True
+        desired_caps["resetKeyboard"] = True
 
     return webdriver.Remote("http://localhost:" + str(app_devices["appiumPort"]) + "/wd/hub", desired_caps)
 
