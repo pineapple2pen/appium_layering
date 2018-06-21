@@ -11,12 +11,18 @@ import configparser
 class Config(object):
     config_reader = None
     platform_name = "Android"
-    platform_version = "4.4.4"
 
     def __init__(self, config_address="../config.ini"):
         self.config_reader = configparser.ConfigParser()
         self.config_reader.read(config_address)
 
+        # desired capabilities
+        self.desired_capabilities = {
+            "noReset": bool(int(self.config_reader.get("desired capabilities", "noReset"))),
+            "noSign": bool(int(self.config_reader.get("desired capabilities", "noSign"))),
+            "unicodeKeyboard": bool(int(self.config_reader.get("desired capabilities", "unicodeKeyboard"))),
+            "resetKeyboard": bool(int(self.config_reader.get("desired capabilities", "resetKeyboard"))),
+        }
 
 if __name__ == "__main__":
     pass
