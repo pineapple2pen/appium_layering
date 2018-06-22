@@ -11,17 +11,17 @@ class ExcelTool(object):
     work_book_xlsx = None
     load_file = False
 
-    def __init__(self, operator_type='w', file_path=""):
+    def __init__(self, operator_type, file_path):
         """
         生成excel文件,建议使用xlsx格式，07及以上office默认文件为xlsx格式
         :param operator_type: 操作类型(w:新建文件读写;r:导入文件读写)
         :param file_path 文件保存路径
         """
-        # todo 读取文件,生成wb对象
         if operator_type == "w" and file_path:
             self.file_name = os.path.basename(file_path)
             self.check_file_name(self.file_name)
             self.work_book_xlsx = openpyxl.Workbook()
+            self.file_path = os.path.dirname(file_path)
         elif operator_type == "r" and file_path:
             self.load_file = True
             self.work_book_xlsx = openpyxl.load_workbook(file_path)
@@ -47,7 +47,7 @@ class ExcelTool(object):
             self.check_file_name(file_name)
             self.work_book_xlsx.save(file_name)
         elif self.file_name:
-            self.work_book_xlsx.save(self.file_name)
+            self.work_book_xlsx.save(os.path.join(self.file_path, self.file_name))
         else:
             raise NotFileNameError("not set file name!")
 
