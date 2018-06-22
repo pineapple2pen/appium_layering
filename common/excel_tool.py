@@ -72,6 +72,6 @@ class NotFileNameError(Exception):
 if __name__ == "__main__":
     test_case = ExcelTool("r", "../TestCase.xlsx")
     sheet1 = test_case.work_book_xlsx["用例"]
-    print(sheet1.cell(2, 2).value)
+    print(sheet1.cell(1, 1).value)
 
     test_case.work_book_xlsx.close()
