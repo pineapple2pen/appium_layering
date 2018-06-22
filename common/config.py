@@ -11,10 +11,11 @@ import configparser
 class Config(object):
     config_reader = None
     platform_name = "Android"
+    device_id = None
 
     def __init__(self, config_address="../config.ini"):
         self.config_reader = configparser.ConfigParser()
-        self.config_reader.read(config_address)
+        self.config_reader.read(config_address, encoding="utf-8")
 
         # desired capabilities
         self.desired_capabilities = {
