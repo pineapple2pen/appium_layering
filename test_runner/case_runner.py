@@ -26,7 +26,7 @@ class CaseRunner:
         try:
             pass
         except Exception as e:
-            step["run_result"] = "失败，失败原因:" + e.args
+            step["run_result"] = "失败，失败原因:" + str(e.args[0] if len(e.args) > 0 else "")
         else:
             step["run_result"] = "成功"
 
