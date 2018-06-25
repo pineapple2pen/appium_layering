@@ -27,7 +27,7 @@ class ApkInfo:
                 if "aapt.exe" in files:
                     return os.path.join(path, "aapt.exe")
         else:
-            return "ANDROID_HOME not exist"
+            raise Exception("ANDROID_HOME not exist")
 
     def get_apk_size(self):
         """
