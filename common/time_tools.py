@@ -7,7 +7,6 @@ import datetime as dt
 
 
 class TimeTools:
-
     format_d_t = "%Y-%m-%d %H:%M:%S"
     format_d = "%Y-%m-%d"
 
@@ -21,17 +20,19 @@ class TimeTools:
         """
         try:
 
-            format_s = cls.format_d_t if format_s is None else format_s
+            format_s = format_s if format_s is not None else cls.format_d if isinstance(date,
+                                                                                        dt.date) else cls.format_d_t
             date_t = None
 
             if isinstance(date, dt.datetime) or isinstance(date, dt.date):
-                date_t = date.timetuple()
+                return date.strftime(format_s)
             elif (isinstance(date, float) or isinstance(date, int)) and len(str(int(date))) == 10:
                 date_t = time.localtime(date)
             elif (isinstance(date, float) or isinstance(date, int)) and len(str(int(date))) == 13:
                 date_t = time.localtime(date / 1000)
 
-            return time.strftime(format_s, date_t)
+            if date_t is not None:
+                return time.strftime(format_s, date_t)
 
         except TypeError:
             pass
@@ -210,5 +211,3 @@ class TimeTools:
 
         except Exception as e:
             print(e)
-
-
