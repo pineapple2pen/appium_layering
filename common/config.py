@@ -25,5 +25,25 @@ class Config(object):
             "resetKeyboard": bool(int(self.config_reader.get("desired capabilities", "resetKeyboard"))),
         }
 
+    def get_config(self, config_name: str, key: str):
+        return self.config_reader.get(config_name, key)
+
+    def get_object(self, obj, obj_name, *args) -> object:
+        try:
+            return getattr(self, obj_name)
+
+        except AttributeError:
+            obj_ins = obj(args)
+            setattr(self, obj_name, obj_ins)
+            return obj_ins
+
+    @staticmethod
+    def encrypt_pwd(encrypt_str):
+        exec_type = encrypt_str[-1]
+        if exec_type == "-":
+            return "".join([chr(ord(i) + int(encrypt_str[-4:-1])) for i in encrypt_str[0:-4]])
+        else:
+            return "".join([chr(ord(i) - int(encrypt_str[-4:-1])) for i in encrypt_str[0:-4]])
+
 if __name__ == "__main__":
     pass
