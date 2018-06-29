@@ -37,6 +37,9 @@ class Config(object):
             setattr(self, obj_name, obj_ins)
             return obj_ins
 
+    def set_attr(self, attr_name, attr):
+        setattr(self, attr_name, attr)
+
     @staticmethod
     def encrypt_pwd(encrypt_str):
         exec_type = encrypt_str[-1]
@@ -44,6 +47,7 @@ class Config(object):
             return "".join([chr(ord(i) + int(encrypt_str[-4:-1])) for i in encrypt_str[0:-4]])
         else:
             return "".join([chr(ord(i) - int(encrypt_str[-4:-1])) for i in encrypt_str[0:-4]])
+
 
 if __name__ == "__main__":
     pass

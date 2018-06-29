@@ -3,6 +3,8 @@
 # @Time   : 2018/6/28 16:46
 # @File   : adb_tools.py
 import os
+import subprocess
+import re
 
 
 class ADBTools:
