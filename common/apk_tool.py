@@ -96,7 +96,7 @@ class ApkInfo:
 
 
 if __name__ == '__main__':
-    apk_info = ApkInfo(r"..\file_dir\suishouji_1060500.apk")
+    apk_info = ApkInfo(r"..\file_dir\suishouji_1059000.apk")
     # apk_info = ApkInfo(r"D:\ChromeDownloads\suishouji_1059000.apk")
     print(apk_info.get_apk_activity())
     print(apk_info.get_apk_base_info())

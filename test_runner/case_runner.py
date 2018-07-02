@@ -5,11 +5,24 @@
 from base.base_test_class import load_test_case
 from page.start_page import StartPage
 from page.charge_up_main_page import ChargeUpMainPage
+from common.config import Config
+from common.apk_tool import ApkInfo
 
 
 class CaseRunner:
-    def get_config(self):
-        pass
+    d_c = {}
+
+    def __init__(self, **kwargs):
+        self.config = Config()
+        self.d_c = dict(self.d_c, **self.config.desired_capabilities)
+        self.config.device_id = kwargs["device_id"]
+        self.d_c["udid"] = kwargs["device_id"]
+        self.d_c["platformName"] = self.config.platform_name
+
+    def get_apk_info(self):
+        apk_info = ApkInfo(r"D:\appTest\appium_layering\appium_layering\file_dir\suishouji_1059000.apk")
+        self.d_c["appActivity"] = apk_info.get_apk_activity()
+        self.d_c["appPackage"], self.d_c["appVersionName"], self.d_c["appVersionCode"] = apk_info.get_apk_base_info()
 
     def get_appium(self):
         pass

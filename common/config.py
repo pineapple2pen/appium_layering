@@ -19,10 +19,10 @@ class Config(object):
 
         # desired capabilities
         self.desired_capabilities = {
-            "noReset": bool(int(self.config_reader.get("desired capabilities", "noReset"))),
-            "noSign": bool(int(self.config_reader.get("desired capabilities", "noSign"))),
-            "unicodeKeyboard": bool(int(self.config_reader.get("desired capabilities", "unicodeKeyboard"))),
-            "resetKeyboard": bool(int(self.config_reader.get("desired capabilities", "resetKeyboard"))),
+            "noReset": str(bool(int(self.config_reader.get("desired capabilities", "noReset")))),
+            "noSign": str(bool(int(self.config_reader.get("desired capabilities", "noSign")))),
+            "unicodeKeyboard": str(bool(int(self.config_reader.get("desired capabilities", "unicodeKeyboard")))),
+            "resetKeyboard": str(bool(int(self.config_reader.get("desired capabilities", "resetKeyboard")))),
         }
 
     def get_config(self, config_name: str, key: str):
