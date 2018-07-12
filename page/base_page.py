@@ -12,6 +12,9 @@ class BasePage(object):
     def __init__(self, remote_car: Remote):
         self.remote_car = remote_car
         self.driver = DriverServer(remote_car)
+        self.operator_dict = {
+            "点击返回": self.click_back,
+        }
 
     @staticmethod
     def click_back():

@@ -12,14 +12,15 @@ def get_appium_driver(app_devices):
 
     if app_devices["platform"].lower() == "android":
         desired_caps["platformName"] = "Android"
-        # desired_caps["platformVersion"] = app_devices["platformVersion"]
-        desired_caps["deviceName"] = app_devices["deviceName"]
+        desired_caps["platformVersion"] = app_devices["platformVersion"]
+        desired_caps["deviceName"] = app_devices["udid"]
         desired_caps["appPackage"] = app_devices["appPackage"]
         desired_caps["appActivity"] = app_devices["appActivity"]
-        desired_caps["noReset"] = True
-        desired_caps['noSign'] = True
-        desired_caps["unicodeKeyboard"] = True
-        desired_caps["resetKeyboard"] = True
+        desired_caps["noReset"] = app_devices["noReset"]
+        desired_caps['noSign'] = app_devices["noSign"]
+        desired_caps["unicodeKeyboard"] = app_devices["unicodeKeyboard"]
+        desired_caps["resetKeyboard"] = app_devices["resetKeyboard"]
+        desired_caps["udid"] = app_devices["udid"]
 
     return webdriver.Remote("http://localhost:" + str(app_devices["appiumPort"]) + "/wd/hub", desired_caps)
 

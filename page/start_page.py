@@ -12,6 +12,10 @@ class StartPage(BasePage):
     def __init__(self, remote_car: Remote):
         super().__init__(remote_car)
 
+        # 将操作注册至操作字典内
+        operator_dict = super().operator_dict
+        operator_dict["点击跳过"] = self.click_skip
+
     def click_skip(self):
         if self.driver.element_status(self.SKIP_BUTTON):
             self.driver.click_ele(self.SKIP_BUTTON)
