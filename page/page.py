@@ -26,7 +26,7 @@ class Page:
                 setattr(self, ele["id"], ele)
 
     def get_element(self, ele_id):
-        if ele_id in eles:
+        if ele_id in self.eles:
             return getattr(self, ele_id)
         else:
             raise Exception("unknown element id")

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "click_skip",
+    "name": "点击跳过按钮",
+    "page": "startPage",
+    "operator": [
+      {
+        "order": 1,
+        "func": "click_exist",
+        "element_id": "skip",
+        "other_param": {},
+        "saveReturn": false,
+        "return": null
+      }
+    ]
+  },
+  {
+    "id": "wait_page_gone",
+    "name": "等待启动页消失",
+    "page": "startPage",
+    "operator": [
+      {
+        "order":1,
+        "func": "wait_gone",
+        "element_id": "welcome_pic",
+        "other_param": {"timeout": 30},
+        "saveReturn": false,
+        "return": null
+      }
+    ]
+  }
+]

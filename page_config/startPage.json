@@ -1,9 +1,16 @@
 {
+  "id": "startPage",
   "name": "启动页",
   "elements": [
     {
       "id": "skip",
       "name": "跳过",
+      "android": "com.mymoney:id/splash_skip_tv",
+      "ios": ""
+    },
+    {
+      "id": "welcome_pic",
+      "name": "启动页图片",
       "android": "com.mymoney:id/splash_skip_tv",
       "ios": ""
     }

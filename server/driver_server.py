@@ -2,10 +2,8 @@
 # @Author : Pineapple Dong ^_^
 # @Time   : 2018/6/15 15:42
 # @File   : driver_server.py
+import time
 from appium.webdriver import Remote
-from selenium.common.exceptions import NoSuchElementException
-from appium.webdriver.common.touch_action import TouchAction
-from appium.webdriver.common.multi_action import MultiAction
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 
@@ -30,10 +28,11 @@ class DriverServer:
         else:
             raise Exception("selector error")
 
-    def get_elements(self, selector: str):
+    def get_elements(self, selector: str, timeout=30):
         """
         获取页面元素list
         :param selector:
+        :param timeout:
         :return:
         """
         driver = self.driver
@@ -111,11 +110,23 @@ class DriverServer:
         if self.element_status(ele):
             self.click_ele(ele)
 
-    def click_gone(self, ele):
+    def click_gone(self, ele, click_wait=0.5):
         """
         一直点击直到消失
         :param ele:
+        :param click_wait: 点击间隔
         :return:
         """
         while self.element_status(ele):
             self.click_ele(ele)
+            time.sleep(click_wait)
+
+    def wait_gone(self, ele, timeout=10):
+        end_time = time.time() + timeout
+        while self.element_status(ele):
+            if time.time() > end_time:
+                raise TimeoutException
+            else:
+                time.sleep(0.5)
+
+
