@@ -13,13 +13,16 @@ class DemoTest:
     def __init__(self):
         # appium_server = AppiumServer()
 
-        apk_info = ApkInfo(r"..\file_dir\suishouji_1060500.apk")
+        apk_info = ApkInfo(r"..\file_dir\suishouji_1059000.apk")
         app = {
             "platform": "Android",
             "deviceName": "Android",
             "appActivity": apk_info.get_apk_activity(),
             "appiumPort": "4723",
-            "appPackage": apk_info.get_apk_base_info()[0]
+            "appPackage": apk_info.get_apk_base_info()[0],
+            "platformName": "Android",
+            "platformVersion": "8.1",
+            "udid": "",
         }
         self.driver = get_appium_driver(app)
         self.start_page = StartPage(self.driver)

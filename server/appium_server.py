@@ -40,7 +40,7 @@ class AppiumServer:
                 p.start()
                 print("start check win appium server status")
                 while True:
-                    if self.win_is_runnnig("http://127.0.0.1:" + self.kwargs[i]["port"] + "/wd/hub" + "/status"):
+                    if self.win_is_running("http://127.0.0.1:" + self.kwargs[i]["port"] + "/wd/hub" + "/status"):
                         print("start win appium server start success")
                         break
             else:

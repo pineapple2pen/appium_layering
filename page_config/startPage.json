@@ -1,0 +1,11 @@
+{
+  "name": "启动页",
+  "elements": [
+    {
+      "id": "skip",
+      "name": "跳过",
+      "android": "com.mymoney:id/splash_skip_tv",
+      "ios": ""
+    }
+  ]
+}
