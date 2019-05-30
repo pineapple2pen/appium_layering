@@ -8,7 +8,8 @@
         "order": 1,
         "func": "click_exist",
         "element_id": "skip",
-        "other_param": {},
+        "other_param_dict": {},
+        "other_param_list": [],
         "saveReturn": false,
         "return": null
       }
@@ -22,10 +23,11 @@
       {
         "order":1,
         "func": "wait_gone",
-        "element_id": "welcome_pic",
-        "other_param": {"timeout": 30},
-        "saveReturn": false,
-        "return": null
+        "element_id": "skip",
+        "other_param_dict": {"timeout": 30},
+        "other_param_list": [],
+        "saveReturn": true,
+        "return": "wait_page_gone_time"
       }
     ]
   }

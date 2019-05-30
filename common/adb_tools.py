@@ -42,11 +42,12 @@ class ADBTools:
                              stderr=subprocess.PIPE,
                              shell=True)
         output, err = p.communicate()
+        print(output.decode())
 
-        devices = re.findall("\n([\w\S]+)\s+device", output.decode())
+        devices = re.findall("\n([\w\S]+)\s+device", output.decode()) or re.findall("\n([\w\S]+)\s+offline",
+                                                                                    output.decode())
 
         if len(devices) == 0:
-            print()
             return "未匹配到设备"
         else:
             return devices
@@ -138,3 +139,5 @@ class ADBTools:
         return result[4]
 
 
+if __name__ == "__main__":
+    print(ADBTools.get_udid_list())

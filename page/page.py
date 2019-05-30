@@ -32,12 +32,8 @@ class Page:
             raise Exception("unknown element id")
 
     @staticmethod
-    def get_page(page_name):
-        file_path = ""
-        for path, subdir, file in os.walk(".."):
-            if "page_config" in subdir:
-                file_path = os.path.abspath(path) + "\\page_config\\" + page_name + ".json"
-                break
+    def get_page(config, page_name):
+        file_path = config.project_path + "\\page_config\\" + page_name + ".json"
         if os.path.isfile(file_path):
             with open(file_path, "r+", encoding="utf-8") as f:
                 return Page(f.read())
@@ -46,5 +42,6 @@ class Page:
 
 
 if __name__ == "__main__":
-    page = Page.get_page("startPage")
-    print(page.eles)
+    pass
+    # page = Page.get_page(Config(), "startPage")
+    # print(page.eles)

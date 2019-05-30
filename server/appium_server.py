@@ -28,31 +28,31 @@ class AppiumServer:
         启动appium服务
         :return:
         """
-        for i in range(0, len(self.kwargs)):
-            cmd = "appium --session-override  -p %s -bp %s -U %s" % (
-                self.kwargs[i]["port"], self.kwargs[i]["bport"], self.kwargs[i]["devices"])
-            print(cmd)
+        # cmd = "appium --session-override  -p %s -bp %s -U %s" % (self.kwargs["port"],
+        # self.kwargs["bport"], self.kwargs["devices"])
+        cmd = "appium --session-override  -p %s -U %s" % (self.kwargs["port"], self.kwargs["devices"])
+        print(cmd)
 
-            # windows下启动server
-            if platform.system() == "Windows":
-                t1 = RunServer(cmd)
-                p = Process(target=t1.start())
-                p.start()
-                print("start check win appium server status")
-                while True:
-                    if self.win_is_running("http://127.0.0.1:" + self.kwargs[i]["port"] + "/wd/hub" + "/status"):
-                        print("start win appium server start success")
-                        break
-            else:
-                appium = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1,
-                                          close_fds=True)
-                print("start check appium server status")
-                while True:
-                    appium_line = appium.stdout.readline().strip().decode()
-                    time.sleep(1)
-                    if 'listener started' in appium_line or 'Error: listen' in appium_line:
-                        print("start appium server success")
-                        break
+        # windows下启动server
+        if platform.system() == "Windows":
+            t1 = RunServer(cmd)
+            p = Process(target=t1.start())
+            p.start()
+            print("start check win appium server status")
+            while True:
+                if self.win_is_running("http://127.0.0.1:" + self.kwargs["port"] + "/wd/hub" + "/status"):
+                    print("start win appium server start success")
+                    break
+        else:
+            appium = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1,
+                                      close_fds=True)
+            print("start check appium server status")
+            while True:
+                appium_line = appium.stdout.readline().strip().decode()
+                time.sleep(1)
+                if 'listener started' in appium_line or 'Error: listen' in appium_line:
+                    print("start appium server success")
+                    break
 
     @staticmethod
     def win_is_running(url):
@@ -79,10 +79,10 @@ class AppiumServer:
                 response.close()
 
     @staticmethod
-    def stop_server(devices):
+    def stop_server(app_port):
         """
         停止appium服务
-        :param devices:
+        :param app_port:
         :return:
         """
         sys_str = platform.system()
@@ -90,13 +90,11 @@ class AppiumServer:
         if sys_str == 'Windows':
             os.popen("taskkill /f /im node.exe")
         else:
-            for device in devices:
-                # mac
-                cmd = "lsof -i :{0}".format(device["port"])
-                plist = os.popen(cmd).readlines()
-                plist_tmp = plist[1].split("    ")
-                plists = plist_tmp[1].split(" ")
-                os.popen("kill -9 {0}".format(plists[0]))
+            cmd = "lsof -i :{0}".format(app_port)
+            plist = os.popen(cmd).readlines()
+            plist_tmp = plist[1].split("    ")
+            plists = plist_tmp[1].split(" ")
+            os.popen("kill -9 {0}".format(plists[0]))
 
 
 class RunServer(threading.Thread):

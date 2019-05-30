@@ -8,10 +8,13 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 
 
-class DriverServer:
+class DriverServer(object):
     # todo封装操作
     def __init__(self, driver: Remote):
         self.driver = driver
+
+    def __call__(self, func_name, *args, **kwargs):
+        return self.__getattribute__(func_name)(*args, **kwargs)
 
     def get_element(self, selector: str, timeout=30):
         """
@@ -23,10 +26,10 @@ class DriverServer:
         driver = self.driver
         if selector.startswith("//"):
             return WebDriverWait(driver, timeout).until(lambda a: a.find_element_by_xpath(selector))
-        elif "id:/" in selector:
+        elif ":id/" in selector:
             return WebDriverWait(driver, timeout).until(lambda a: a.find_element_by_id(selector))
         else:
-            raise Exception("selector error")
+            raise Exception("selector error:" + selector)
 
     def get_elements(self, selector: str, timeout=30):
         """
@@ -122,11 +125,17 @@ class DriverServer:
             time.sleep(click_wait)
 
     def wait_gone(self, ele, timeout=10):
-        end_time = time.time() + timeout
+        """
+        等待元素消失
+        :param ele:
+        :param timeout:
+        :return: 等待时间
+        """
+        start_time = time.time()
+        end_time = start_time + timeout
         while self.element_status(ele):
             if time.time() > end_time:
                 raise TimeoutException
             else:
                 time.sleep(0.5)
-
-
+        return time.time() - start_time

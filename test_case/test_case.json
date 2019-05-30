@@ -1,0 +1,27 @@
+[
+  {
+    "id": "startPageWaitTime",
+    "name": "启动页面停留时间",
+    "run": true,
+    "execute": [
+      {
+        "execute_id": "startPage-wait_page_gone",
+        "page": "startPage",
+        "operator": "wait_page_gone",
+        "save_return": true,
+        "save_name": "startPage-wait_page_gone"
+      }
+    ],
+    "check_type": "func-0",
+    "check_ope": [],
+    "check_param": [
+      {
+        "check_type": "compare",
+        "check_val": "startPage-wait_page_gone",
+        "check_func": "gt",
+        "param": 2.0,
+        "other_param": ""
+      }
+    ]
+  }
+]
