@@ -38,11 +38,11 @@ class CaseRunner(object):
     def run_test_case(self):
         def test_case(config, case_id):
             def test(self):
-                test_case = config.test_case_dir[case_id]
+                case_info = config.test_case_dir[case_id]
                 operator_return = {}
-                print("开始运行用例：{}, case id:{}".format(test_case["name"], test_case["id"]))
+                print("开始运行用例：{}, case id:{}".format(case_info["name"], case_info["id"]))
                 # 运行用例
-                need_ope = test_case["execute"] + test_case["check_ope"]
+                need_ope = case_info["execute"] + case_info["check_ope"]
                 print("开始运行用例步骤")
                 for operator in need_ope:
                     print("operator {} start".format(operator["execute_id"]))
@@ -53,7 +53,7 @@ class CaseRunner(object):
 
                 # 执行检查
                 print("开始执行检查")
-                for check in test_case["check_param"]:
+                for check in case_info["check_param"]:
                     print("check expect：{} - {}， actual：{}".format(check["check_func"],
                                                                    check["param"],
                                                                    operator_return[check["check_val"]]
@@ -87,7 +87,7 @@ class Check:
         "gt": lambda a, b: a > b,
         "gte": lambda a, b: a >= b,
         "lt": lambda a, b: a < b,
-        "lte": lambda a, b: a < b,
+        "lte": lambda a, b: a <= b,
         "eq": lambda a, b: a == b,
         "neq": lambda a, b: a != b,
         "contain": lambda a, b: a in b,
