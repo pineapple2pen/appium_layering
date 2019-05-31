@@ -89,6 +89,7 @@ class AppiumServer:
 
         if sys_str == 'Windows':
             os.popen("taskkill /f /im node.exe")
+            # os.popen("taskkill /f /im appium.exe")
         else:
             cmd = "lsof -i :{0}".format(app_port)
             plist = os.popen(cmd).readlines()

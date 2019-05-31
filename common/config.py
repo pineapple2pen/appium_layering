@@ -111,7 +111,10 @@ class Config(object):
         self.driver = get_appium_driver(self)
 
     def tear_down(self):
+        self.driver.close_app()
+        self.driver.quit()
         self.app_server.stop_server(self.appiumPort)
+
 
 
 if __name__ == "__main__":

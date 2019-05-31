@@ -7,22 +7,14 @@ from appium import webdriver
 import unittest
 
 
-def get_appium_driver(app_devices):
+def get_appium_driver(config):
     desired_caps = {}
+    desired_caps.update(**config.desired_capabilities)
 
-    if app_devices["platform"].lower() == "android":
-        desired_caps["platformName"] = "Android"
-        desired_caps["platformVersion"] = app_devices["platformVersion"]
-        desired_caps["deviceName"] = app_devices["udid"]
-        desired_caps["appPackage"] = app_devices["appPackage"]
-        desired_caps["appActivity"] = app_devices["appActivity"]
-        desired_caps["noReset"] = app_devices["noReset"]
-        desired_caps['noSign'] = app_devices["noSign"]
-        desired_caps["unicodeKeyboard"] = app_devices["unicodeKeyboard"]
-        desired_caps["resetKeyboard"] = app_devices["resetKeyboard"]
-        desired_caps["udid"] = app_devices["udid"]
-
-    return webdriver.Remote("http://localhost:" + str(app_devices["appiumPort"]) + "/wd/hub", desired_caps)
+    desired_caps["udid"] = config.device_id
+    desired_caps["device"] = config.device_id
+    desired_caps["deviceName"] = config.device_id
+    return webdriver.Remote("http://localhost:" + str(config.appiumPort) + "/wd/hub", desired_caps)
 
 
 def load_test_case(case_path):

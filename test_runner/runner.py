@@ -39,20 +39,45 @@ class CaseRunner(object):
         print("开始运行用例：{}, case id:{}".format(test_case["name"], test_case["id"]))
         # 运行用例
         need_ope = test_case["execute"] + test_case["check_ope"]
+        print("开始运行用例步骤")
         for operator in need_ope:
+            print("operator {} start".format(operator["execute_id"]))
             ope_ret = self._run_operator(operator["execute_id"])
+            print("operator return {}".format(ope_ret))
             if operator["save_return"]:
-                operator_return[operator[save_name]] = ope_ret
+                operator_return[operator["save_name"]] = ope_ret
 
         # 执行检查
+        print("开始执行检查")
         for check in test_case["check_param"]:
-            check_res = Check.check[check[check["check_func"]]](
-                type(check["param"])(operator_return[check["check_val"]]),
-                check["param"])
+            print("check expect：{} - {}， actual：{}".format(check["check_func"],
+                                                           check["param"],
+                                                           operator_return[check["check_val"]]
+                                                           ))
+            actual_res = operator_return[check["check_val"]]
+            if type(check["param"]) not in [list, tuple]:
+                actual_res = type(check["param"])(actual_res)
+            check_res = Check.check[check["check_func"]](actual_res, check["param"])
+            print("check result {}".format(check_res))
             if not check_res:
                 print("check error, expect：{} - {}， actual：{}".format(check["check_func"],
-                                                                      check["check_val"],
-                                                                      check["param"]))
+                                                                      check["param"],
+                                                                      operator_return[check["check_val"]]))
+            return False
+
+    def run_test_case(self):
+        cases = self.config.test_case_dir
+        all_case = cases.keys()
+        case_all_res = {}
+
+        for c in all_case:
+            if cases[c]["run"]:
+                check_res = self._run_test_case(c)
+                case_all_res[c] = check_res
+                if self.fail_fast and not check_res:
+                    raise Exception(c, " 失败了，退出测试！！")
+        print("all case run, run res :", case_all_res)
+        self.config.tear_down()
 
 
 class Check:
@@ -68,4 +93,5 @@ class Check:
 
 
 if __name__ == "__main__":
-    pass
+    case = CaseRunner()
+    case.run_test_case()
