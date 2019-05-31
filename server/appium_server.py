@@ -7,6 +7,7 @@ import socket
 import urllib.request
 from urllib.error import URLError
 from multiprocessing import Process
+from appium import webdriver
 import time
 import platform
 import subprocess
@@ -31,6 +32,7 @@ class AppiumServer:
         # cmd = "appium --session-override  -p %s -bp %s -U %s" % (self.kwargs["port"],
         # self.kwargs["bport"], self.kwargs["devices"])
         cmd = "appium --session-override  -p %s -U %s" % (self.kwargs["port"], self.kwargs["devices"])
+        # node C:\Program Files (x86)\Appium\node_modules\appium\lib\server\main.js --address 127.0.0.1 --port 4723 --platform-name Android --platform-version 19 --automation-name Appium --language en --log-no-color
         print(cmd)
 
         # windows下启动server
@@ -105,3 +107,13 @@ class RunServer(threading.Thread):
 
     def run(self):
         os.system(self.cmd)
+
+
+def get_appium_driver(config):
+    desired_caps = {}
+    desired_caps.update(**config.desired_capabilities)
+
+    desired_caps["udid"] = config.device_id
+    desired_caps["device"] = config.device_id
+    desired_caps["deviceName"] = config.device_id
+    return webdriver.Remote("http://localhost:" + str(config.appiumPort) + "/wd/hub", desired_caps)

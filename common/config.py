@@ -10,8 +10,10 @@ import json
 from common.singleton import singleton
 from page.page import Page
 from server.appium_server import AppiumServer
+from server.appium_server import get_appium_driver
 from common.adb_tools import ADBTools
-from base.base_test_class import get_appium_driver
+from server.driver_server import DriverServer
+
 
 
 @singleton
@@ -109,12 +111,12 @@ class Config(object):
 
     def _init_driver(self):
         self.driver = get_appium_driver(self)
+        self.driver_server = DriverServer(self.driver)
 
     def tear_down(self):
         self.driver.close_app()
         self.driver.quit()
         self.app_server.stop_server(self.appiumPort)
-
 
 
 if __name__ == "__main__":
