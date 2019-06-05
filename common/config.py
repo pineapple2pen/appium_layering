@@ -15,7 +15,6 @@ from common.adb_tools import ADBTools
 from server.driver_server import DriverServer
 
 
-
 @singleton
 class Config(object):
     config_reader = None

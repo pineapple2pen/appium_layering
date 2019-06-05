@@ -136,6 +136,11 @@ class DriverServer(object):
         while self.element_status(ele):
             if time.time() > end_time:
                 raise TimeoutException
-            else:
-                time.sleep(0.5)
         return time.time() - start_time
+
+    def swipe(self, direction):
+        pass
+
+    def drag_ele_onto_another_ele(self, ele1, ele2):
+        pass
+

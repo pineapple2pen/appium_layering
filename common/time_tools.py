@@ -18,26 +18,21 @@ class TimeTools:
         :param format_s: 时间格式
         :return:
         """
-        try:
+        format_s = format_s if format_s is not None else cls.format_d if isinstance(date,
+                                                                                    dt.date) else cls.format_d_t
+        date_t = None
 
-            format_s = format_s if format_s is not None else cls.format_d if isinstance(date,
-                                                                                        dt.date) else cls.format_d_t
-            date_t = None
+        if isinstance(date, dt.datetime) or isinstance(date, dt.date):
+            return date.strftime(format_s)
+        elif (isinstance(date, float) or isinstance(date, int)) and len(str(int(date))) == 10:
+            date_t = time.localtime(date)
+        elif (isinstance(date, float) or isinstance(date, int)) and len(str(int(date))) == 13:
+            date_t = time.localtime(date / 1000)
+        else:
+            date_t = time.localtime()
 
-            if isinstance(date, dt.datetime) or isinstance(date, dt.date):
-                return date.strftime(format_s)
-            elif (isinstance(date, float) or isinstance(date, int)) and len(str(int(date))) == 10:
-                date_t = time.localtime(date)
-            elif (isinstance(date, float) or isinstance(date, int)) and len(str(int(date))) == 13:
-                date_t = time.localtime(date / 1000)
-
-            if date_t is not None:
-                return time.strftime(format_s, date_t)
-
-        except TypeError:
-            pass
-        except Exception as e:
-            print(e)
+        if date_t is not None:
+            return time.strftime(format_s, date_t)
 
     @classmethod
     def get_until_time(cls, date, format_s: str = None) -> dt.datetime:
@@ -47,30 +42,23 @@ class TimeTools:
         :param format_s: 时间为字符串时需添加格式
         :return:
         """
-        try:
+        format_s = cls.format_d_t if format_s is None else format_s
+        date_t = None
 
-            format_s = cls.format_d_t if format_s is None else format_s
-            date_t = None
+        if isinstance(date, str):
+            date_t = time.strptime(date, format_s)
+            # print(date_t)
+        elif (isinstance(date, int) or isinstance(date, float)) and len(str(int(date))) == 10:
+            date_t = time.localtime(date)
+        elif (isinstance(date, int) or isinstance(date, float)) and len(str(int(date))) == 13:
+            date_t = time.localtime(date / 1000)
 
-            if isinstance(date, str):
-                date_t = time.strptime(date, format_s)
-                # print(date_t)
-            elif (isinstance(date, int) or isinstance(date, float)) and len(str(int(date))) == 10:
-                date_t = time.localtime(date)
-            elif (isinstance(date, int) or isinstance(date, float)) and len(str(int(date))) == 13:
-                date_t = time.localtime(date / 1000)
-
-            return dt.datetime(date_t.tm_year,
-                               date_t.tm_mon,
-                               date_t.tm_mday,
-                               date_t.tm_hour,
-                               date_t.tm_min,
-                               date_t.tm_sec)
-
-        except AttributeError:
-            pass
-        except Exception as e:
-            print(e)
+        return dt.datetime(date_t.tm_year,
+                           date_t.tm_mon,
+                           date_t.tm_mday,
+                           date_t.tm_hour,
+                           date_t.tm_min,
+                           date_t.tm_sec)
 
     @classmethod
     def get_seconds(cls, date, format_s: str = None) -> float:
@@ -80,21 +68,15 @@ class TimeTools:
         :param format_s: 时间为字符串时需添加格式
         :return:
         """
-        try:
-            format_s = cls.format_d_t if format_s is None else format_s
-            date_t = None
+        format_s = cls.format_d_t if format_s is None else format_s
+        date_t = None
 
-            if isinstance(date, str):
-                date_t = time.strptime(date, format_s)
-            if isinstance(date, dt.datetime) or isinstance(date, dt.date):
-                date_t = date.timetuple()
+        if isinstance(date, str):
+            date_t = time.strptime(date, format_s)
+        if isinstance(date, dt.datetime) or isinstance(date, dt.date):
+            date_t = date.timetuple()
 
-            return time.mktime(date_t)
-
-        except TypeError:
-            pass
-        except Exception as e:
-            print(e)
+        return time.mktime(date_t)
 
     @classmethod
     def begin_of_day_mills(cls, day=None):
@@ -103,15 +85,9 @@ class TimeTools:
         :param day: 指定时间
         :return:
         """
-        try:
-            day_u = dt.date.today() if day in (None, "") else cls.get_until_time(day)
+        day_u = dt.date.today() if day in (None, "") else cls.get_until_time(day)
 
-            return cls.get_seconds(dt.date(day_u.year, day_u.month, day_u.day)) * 1000
-
-        except AttributeError:
-            pass
-        except Exception as e:
-            print(e)
+        return cls.get_seconds(dt.date(day_u.year, day_u.month, day_u.day)) * 1000
 
     @classmethod
     def end_of_day_mills(cls, day=None):
@@ -120,14 +96,8 @@ class TimeTools:
         :param day: 指定时间
         :return:
         """
-        try:
 
-            return cls.begin_of_day_mills(day) + 24 * 60 * 60 * 1000 - 1
-
-        except TypeError:
-            pass
-        except Exception as e:
-            print(e)
+        return cls.begin_of_day_mills(day) + 24 * 60 * 60 * 1000 - 1
 
     @staticmethod
     def get_month_end_day(year: int, month: int) -> int:
@@ -137,6 +107,8 @@ class TimeTools:
         :param month: 某月
         :return:
         """
+        if month < 1 or month > 12:
+            raise ValueError("month {} error".format(month))
         days = 31
         while days:
             try:
@@ -153,12 +125,7 @@ class TimeTools:
         :param year:
         :return:
         """
-        try:
-
-            return dt.date(year, month, 1)
-
-        except ValueError:
-            pass
+        return dt.date(year, month, 1)
 
     @classmethod
     def end_of_month_day(cls, month, year=dt.date.today().year):
@@ -168,12 +135,7 @@ class TimeTools:
         :param year:
         :return:
         """
-        try:
-
-            return dt.date(year, month, cls.get_month_end_day(year, month))
-
-        except ValueError:
-            pass
+        return dt.date(year, month, cls.get_month_end_day(year, month))
 
     @classmethod
     def get_interval_day_by_day(cls, interval: int, date=None):
@@ -183,16 +145,11 @@ class TimeTools:
         :param date:指定日期
         :return:
         """
-        try:
+        date = dt.date.today() if date is None else date
+        date = date if isinstance(date, dt.date) else cls.get_until_time(date, cls.format_d)
+        time_del = dt.timedelta(days=interval)
 
-            date = dt.date.today() if date is None else date
-            date = date if isinstance(date, dt.date) else cls.get_until_time(date, cls.format_d)
-            time_del = dt.timedelta(days=interval)
-
-            return date + time_del
-
-        except Exception as e:
-            print(e)
+        return date + time_del
 
     @classmethod
     def different_days(cls, date1: str, date2: str):
@@ -202,12 +159,7 @@ class TimeTools:
         :param date2: 指定日期2，格式为（2018-06-15）
         :return:
         """
-        try:
+        date1_u = cls.get_until_time(date1, cls.format_d)
+        date2_u = cls.get_until_time(date2, cls.format_d)
 
-            date1_u = cls.get_until_time(date1, cls.format_d)
-            date2_u = cls.get_until_time(date2, cls.format_d)
-
-            return (date1_u - date2_u).days
-
-        except Exception as e:
-            print(e)
+        return (date1_u - date2_u).days

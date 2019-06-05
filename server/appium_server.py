@@ -110,6 +110,11 @@ class RunServer(threading.Thread):
 
 
 def get_appium_driver(config):
+    """
+    获取appium driver
+    :param config:
+    :return:
+    """
     desired_caps = {}
     desired_caps.update(**config.desired_capabilities)
 
