@@ -35,20 +35,19 @@ class ADBTools:
         os.system("adb start-server")
 
     @staticmethod
-    def get_udid_list():
+    def get_udid_list(non_device_error=True):
         p = subprocess.Popen("adb devices",
                              stdout=subprocess.PIPE,
                              stdin=subprocess.PIPE,
                              stderr=subprocess.PIPE,
                              shell=True)
         output, err = p.communicate()
-        print(output.decode())
+        # print(output.decode())
 
-        devices = re.findall("\n([\w\S]+)\s+device", output.decode()) or re.findall("\n([\w\S]+)\s+offline",
-                                                                                    output.decode())
+        devices = re.findall("\n([\w\S]+)\s+device", output.decode())
 
-        if len(devices) == 0:
-            return "未匹配到设备"
+        if len(devices) == 0 and non_device_error:
+            raise Exception("no device or device status can not operator, please relink device")
         else:
             return devices
 
@@ -137,6 +136,18 @@ class ADBTools:
             return "the process doesn't exist."
         result = string.split(" ")
         return result[4]
+
+    @classmethod
+    def get_platform_version(cls, udid=""):
+        string = cls.call_adb("shell %s getprop ro.build.version.release" % udid)
+        if "*" in string:
+            string = string.split("\n")
+            for s in string:
+                if "*" in s:
+                    continue
+                if "." in s:
+                    return s.strip()
+        return string.strip()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>AppiumDemo</title>
+    <meta name="generator" content="HtmlTestRunner 0.8.4"/>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    
+<style type="text/css" media="screen">
+
+/* -- css div popup ------------------------------------------------------------------------ */
+.popup_window {
+    display: none;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    /*border: solid #627173 1px; */
+    padding: 10px;
+    background-color: #99CCFF;
+    font-family: "Lucida Console", "Courier New", Courier, monospace;
+    text-align: left;
+    font-size: 10pt;
+    width: 500px;
+}
+
+/* -- report ------------------------------------------------------------------------ */
+
+#show_detail_line .label {
+    font-size: 85%;
+    cursor: pointer;
+}
+
+#show_detail_line {
+    margin: 2em auto 1em auto;
+}
+
+#total_row  { font-weight: bold; }
+.hiddenRow  { display: none; }
+.testcase   { margin-left: 2em; }
+
+</style>
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+<script language="javascript" type="text/javascript"><!--
+output_list = Array();
+
+/* level - 0:Summary; 1:Failed; 2:All */
+function showCase(level) {
+    trs = document.getElementsByTagName("tr");
+    for (var i = 0; i < trs.length; i++) {
+        tr = trs[i];
+        id = tr.id;
+        if (id.substr(0,2) == 'ft') {
+            if (level < 1) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+        if (id.substr(0,2) == 'pt') {
+            if (level > 1) {
+                tr.className = '';
+            }
+            else {
+                tr.className = 'hiddenRow';
+            }
+        }
+    }
+}
+
+
+function showClassDetail(cid, count) {
+    var id_list = Array(count);
+    var toHide = 1;
+    for (var i = 0; i < count; i++) {
+        tid0 = 't' + cid.substr(1) + '.' + (i+1);
+        tid = 'f' + tid0;
+        tr = document.getElementById(tid);
+        if (!tr) {
+            tid = 'p' + tid0;
+            tr = document.getElementById(tid);
+        }
+        id_list[i] = tid;
+        if (tr.className) {
+            toHide = 0;
+        }
+    }
+    for (var i = 0; i < count; i++) {
+        tid = id_list[i];
+        if (toHide) {
+            document.getElementById('div_'+tid).style.display = 'none'
+            document.getElementById(tid).className = 'hiddenRow';
+        }
+        else {
+            document.getElementById(tid).className = '';
+        }
+    }
+}
+
+
+function showTestDetail(div_id){
+    var details_div = document.getElementById(div_id)
+    var displayState = details_div.style.display
+    // alert(displayState)
+    if (displayState != 'block' ) {
+        displayState = 'block'
+        details_div.style.display = 'block'
+    }
+    else {
+        details_div.style.display = 'none'
+    }
+}
+
+
+function html_escape(s) {
+    s = s.replace(/&/g,'&amp;');
+    s = s.replace(/</g,'&lt;');
+    s = s.replace(/>/g,'&gt;');
+    return s;
+}
+
+/* obsoleted by detail in <div>
+function showOutput(id, name) {
+    var w = window.open("", //url
+                    name,
+                    "resizable,scrollbars,status,width=800,height=450");
+    d = w.document;
+    d.write("<pre>");
+    d.write(html_escape(output_list[id]));
+    d.write("\n");
+    d.write("<a href='javascript:window.close()'>close</a>\n");
+    d.write("</pre>\n");
+    d.close();
+}
+*/
+--></script>
+
+<div class="container">
+    <div class='heading'>
+<h1>AppiumDemo</h1>
+<p><strong>测试开始时间:</strong> 2019-06-13 19:41:18</p>
+<p><strong>测试耗时:</strong> 0:00:01.66</p>
+<p><strong>测试状态:</strong> <span class="text text-danger">失败 <strong>1</strong></span></p>
+
+<p class='description'>Appium Demo Test Report</p>
+</div>
+
+
+    
+<p id='show_detail_line'>
+<span class="label label-primary" onclick="showCase(0)">收起测试记录详细</span>
+<span class="label label-danger" onclick="showCase(1)">展开失败案例详情</span>
+<span class="label label-default" onclick="showCase(2)">展开测试记录详情</span>
+</p>
+<table id='result_table' class="table">
+    <thead>
+        <tr id='header_row'>
+            <th>用例名称</td>
+            <th>总数</td>
+            <th>通过</td>
+            <th>失败</td>
+            <th>异常</td>
+            <th>详细数据</td>
+        </tr>
+    </thead>
+    <tbody>
+        
+<tr class='text text-danger'>
+    <td>test_runner.runner.XXXAutoTest</td>
+    <td>1</td>
+    <td>0</td>
+    <td>1</td>
+    <td>0</td>
+    <td><a class="btn btn-xs btn-primary" href="javascript:showClassDetail('c1',1)">Detail</a></td>
+</tr>
+
+<tr id='ft1.1' class='text text-success'>
+    <td class='text text-danger'><div class='testcase'>test_20190613_194118_startPageWaitTime</div></td>
+    <td colspan='5' align='center'>
+
+    <!--css div popup start-->
+    <a class="popup_link btn btn-xs btn-default" onfocus='this.blur();' href="javascript:showTestDetail('div_ft1.1')" >
+        fail</a>
+
+    <div id='div_ft1.1' class="popup_window">
+        <div style='text-align: right;cursor:pointer'>
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft1.1').style.display = 'none' " >
+           [x]</a>
+        </div>
+        <pre>
+        
+ft1.1: [2019-06-13 19:41:18]start run teat case：启动页面停留时间, case id:startPageWaitTime
+[2019-06-13 19:41:18]operator : startPage-wait_page_gone start
+{'startPage-click_skip': {'id': 'click_skip', 'name': '点击跳过按钮', 'page': 'startPage', 'operator': [{'order': 1, 'func': 'click_exist', 'element_id': 'skip', 'other_param_dict': {}, 'other_param_list': [], 'saveReturn': False, 'return': None}]}, 'startPage-wait_page_gone': {'id': 'wait_page_gone', 'name': '等待启动页消失', 'page': 'startPage', 'operator': [{'order': 1, 'func': 'wait_gone', 'element_id': 'skip', 'other_param_dict': {'timeout': 30}, 'other_param_list': [], 'saveReturn': True, 'return': 'wait_page_gone_time'}]}}
+[2019-06-13 19:41:19]operator return 1.6600000858306885
+[2019-06-13 19:41:19] start check param
+[2019-06-13 19:41:19]check expect：gt - 2.0， actual：1.6600000858306885
+[2019-06-13 19:41:19]check result False
+Traceback (most recent call last):
+  File "D:\appTest\appium_layering\appium_layering\test_runner\runner.py", line 79, in test
+    assert check_res
+AssertionError
+
+
+        </pre>
+    </div>
+    <!--css div popup end-->
+
+    </td>
+</tr>
+
+    </tbody>
+    <tfoot>
+        <tr id='total_row'>
+            <td>总计</td>
+            <td>1</td>
+            <td class="text text-success">0</td>
+            <td class="text text-danger">1</td>
+            <td class="text text-warning">0</td>
+            <td>&nbsp;</td>
+        </tr>
+    </tfoot>
+</table>
+
+    <div id='ending'>&nbsp;</div>
+</div>
+
+</body>
+</html>

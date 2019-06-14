@@ -24,7 +24,7 @@ class CaseRunner(object):
         :param operator_id:
         :return:
         """
-        print(config.page_operator_dir)
+        # print(config.page_operator_dir)
         operator = config.page_operator_dir[operator_id]
 
         for ope in operator["operator"]:
